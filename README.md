@@ -24,3 +24,28 @@ git init
 git add .
 git commit -m "chore: initialize WorkUp scaffold"
 ```
+
+## Run locally
+
+### Backend
+
+```bash
+python -m venv .venv
+# Windows PowerShell:
+.\.venv\Scripts\Activate.ps1
+pip install -r backend/requirements.txt
+uvicorn backend.main:app --reload
+```
+
+Backend URL: `http://127.0.0.1:8000`  
+Health check: `http://127.0.0.1:8000/health`
+
+### Frontend
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Frontend URL: `http://127.0.0.1:5173`
