@@ -4,7 +4,7 @@ from typing import List
 
 from database import get_db
 from models import Bid, Project, Freelancer, Contract, BidStatus, ProjectStatus
-from schemas import BidCreate, BidResponse
+from schemas import BidCreate, BidResponse, BidStatusUpdate
 from dependencies import get_current_user, require_freelancer, require_client
 
 router = APIRouter(tags=["bids"])
@@ -69,7 +69,7 @@ def submit_bid(
 @router.patch("/bids/{bid_id}/status", response_model=BidResponse)
 def update_bid_status(
     bid_id: int,
-    status_update: dict,
+    status_update: BidStatusUpdate,
     db: Session = Depends(get_db),
     current_user=Depends(require_client)
 ):
@@ -82,10 +82,10 @@ def update_bid_status(
     if project.client_id != current_user.id:
         raise HTTPException(status_code=403, detail="Not your project")
 
-    new_status = status_update.get("status")
+    new_status = status_update.status
 
     # if accepting, make sure no other bid is already accepted
-    if new_status == "accepted":
+    if new_status == BidStatus.accepted:
         already_accepted = db.query(Bid).filter(
             Bid.project_id == bid.project_id,
             Bid.status == BidStatus.accepted

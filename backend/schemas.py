@@ -95,6 +95,11 @@ class BidResponse(BidBase):
         from_attributes = True
 
 
+# -------- Bid status --------
+class BidStatusUpdate(BaseModel):
+    status: BidStatus
+
+
 # -------- Contract --------
 class ContractBase(BaseModel):
     agreed_amount: float
@@ -109,6 +114,10 @@ class ContractResponse(ContractBase):
     class Config:
         from_attributes = True
 
+
+# -------- Contract status --------
+class ContractStatusUpdate(BaseModel):
+    status: ContractStatus
 
 # -------- Review --------
 class ReviewBase(BaseModel):

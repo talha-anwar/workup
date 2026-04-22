@@ -6,7 +6,7 @@ from typing import List
 from database import get_db
 from models import User, Project, Contract, Review, Report, ContractStatus, ReportStatus
 from schemas import (
-    UserResponse, ProjectResponse, ReportResponse,
+    UserResponse, ProjectResponse, ReportResponse, ContractStatusUpdate,
     UserStatusUpdate, ReportStatusUpdate, AdminStats, ProjectStatusUpdate
 )
 from dependencies import require_admin
@@ -68,7 +68,7 @@ def get_all_projects(
 @router.patch("/projects/{project_id}/status", response_model=ProjectResponse)
 def force_project_status(
     project_id: int,
-    status_update: dict,
+    status_update: ProjectStatusUpdate,
     db: Session = Depends(get_db),
     current_user=Depends(require_admin)
 ):
@@ -76,7 +76,7 @@ def force_project_status(
     if not project:
         raise HTTPException(status_code=404, detail="Project not found")
 
-    project.status = status_update.get("status")
+    project.status = status_update.status
     db.commit()
     db.refresh(project)
     return project
