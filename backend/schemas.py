@@ -69,6 +69,11 @@ class ProjectResponse(ProjectBase):
         from_attributes = True
 
 
+# -------- Project status --------
+class ProjectStatusUpdate(BaseModel):
+    status: ProjectStatus
+
+
 # -------- Bid --------
 class BidBase(BaseModel):
     amount: float

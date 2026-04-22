@@ -4,12 +4,14 @@ from fastapi.middleware.cors import CORSMiddleware
 from database import Base, engine
 from routers import auth, projects, bids, contracts, reviews, search, reports, admin, users
 
-# create all tables if they don't exist
 Base.metadata.create_all(bind=engine)
 
-app = FastAPI(title="WorkUp API", version="1.0.0")
+app = FastAPI(
+    title="WorkUp API", 
+    version="1.0.0",
+    swagger_ui_parameters={"persistAuthorization": True}
+)
 
-# CORS — allows React frontend to talk to the API
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:3000"],
@@ -18,7 +20,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# register routers
 app.include_router(auth.router)
 app.include_router(projects.router)
 app.include_router(bids.router)

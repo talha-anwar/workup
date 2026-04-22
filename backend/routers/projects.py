@@ -1,10 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from typing import List
-
 from database import get_db
 from models import Project, Skill, User
-from schemas import ProjectCreate, ProjectResponse
+from schemas import ProjectCreate, ProjectResponse, ProjectStatusUpdate
 from dependencies import get_current_user, require_client
 
 router = APIRouter(prefix="/projects", tags=["projects"])
@@ -57,7 +56,7 @@ def create_project(
 @router.patch("/{project_id}/status", response_model=ProjectResponse)
 def update_project_status(
     project_id: int,
-    status_update: dict,
+    status_update: ProjectStatusUpdate,
     db: Session = Depends(get_db),
     current_user: User = Depends(require_client)
 ):
@@ -73,7 +72,7 @@ def update_project_status(
             detail="Not your project"
         )
 
-    project.status = status_update.get("status")
+    project.status = status_update.status
     db.commit()
     db.refresh(project)
     return project

@@ -3,12 +3,11 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from sqlalchemy import func
 from typing import List
-
 from database import get_db
 from models import User, Project, Contract, Review, Report, ContractStatus, ReportStatus
 from schemas import (
     UserResponse, ProjectResponse, ReportResponse,
-    UserStatusUpdate, ReportStatusUpdate, AdminStats
+    UserStatusUpdate, ReportStatusUpdate, AdminStats, ProjectStatusUpdate
 )
 from dependencies import require_admin
 
