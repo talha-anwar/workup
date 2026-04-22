@@ -32,13 +32,14 @@ git commit -m "chore: initialize WorkUp scaffold"
 ```bash
 python -m venv .venv
 # Windows PowerShell:
-.\.venv\Scripts\Activate.ps1
+.\.venv\Scripts\activate
 pip install -r backend/requirements.txt
-uvicorn backend.main:app --reload
+uvicorn main:app --reload
 ```
 
 Backend URL: `http://127.0.0.1:8000`  
 Health check: `http://127.0.0.1:8000/health`
+FastAPI Docs: `http://127.0.0.1:8000/docs`
 
 ### Frontend
 
