@@ -1,12 +1,35 @@
-"""Backend application entrypoint."""
-
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
-app = FastAPI(title="WorkUp API", version="0.1.0")
+from database import Base, engine
+from routers import auth, projects, bids, contracts, reviews, search, reports, admin, users
+
+# create all tables if they don't exist
+Base.metadata.create_all(bind=engine)
+
+app = FastAPI(title="WorkUp API", version="1.0.0")
+
+# CORS — allows React frontend to talk to the API
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# register routers
+app.include_router(auth.router)
+app.include_router(projects.router)
+app.include_router(bids.router)
+app.include_router(contracts.router)
+app.include_router(reviews.router)
+app.include_router(search.router)
+app.include_router(reports.router)
+app.include_router(admin.router)
+app.include_router(users.router)
 
 
-@app.get("/health", tags=["system"])
-def health_check() -> dict[str, str]:
-    """Simple health endpoint for local smoke tests."""
-    return {"status": "ok"}
-
+@app.get("/")
+def root():
+    return {"message": "WorkUp API is running"}
