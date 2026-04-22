@@ -15,7 +15,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy import CheckConstraint, UniqueConstraint, Date
 from sqlalchemy.dialects.mysql import INTEGER as MySQLInteger
 
-from .database import Base
+from database import Base
 
 
 # -------- Enums --------
@@ -268,7 +268,7 @@ class Review(Base):
     reviewee = relationship("User", foreign_keys=[reviewee_id], back_populates="reviews_received")
     reports = relationship("Report", back_populates="review")
 
-    
+
 class Report(Base):
     __tablename__ = "reports"
     id = Column(MySQLInteger(unsigned=True), primary_key=True, index=True)
