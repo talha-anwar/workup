@@ -1,3 +1,62 @@
 .navbar {
-  padding: 0.75rem 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 1rem;
+  align-items: center;
+  width: 100%;
+  padding: .9rem max(1rem, calc((100vw - 1120px) / 2));
+  background: rgba(255,255,255,.86);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(226, 232, 240, .9);
+}
+
+.brand {
+  font-size: 1.4rem;
+  font-weight: 950;
+  color: var(--primary-color);
+  letter-spacing: -.04em;
+}
+
+.nav-links,
+.nav-auth {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  flex-wrap: wrap;
+}
+
+.nav-links { justify-content: center; }
+.nav-links a { color: var(--text-muted); font-weight: 800; }
+.nav-links a.active,
+.nav-links a:hover { color: var(--primary-color); }
+.nav-auth span { color: var(--text-muted); font-weight: 800; }
+
+.role-switch {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: white;
+  box-shadow: var(--shadow-sm);
+}
+
+.role-switch button {
+  padding: 6px 11px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-muted);
+  box-shadow: none;
+}
+
+.role-switch button:hover { transform: none; box-shadow: none; color: var(--primary-color); }
+.role-switch button.active { background: var(--primary-color); color: white; }
+
+@media (max-width: 800px) {
+  .navbar { grid-template-columns: 1fr; }
+  .nav-links, .nav-auth { justify-content: flex-start; }
 }

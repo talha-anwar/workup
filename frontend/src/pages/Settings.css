@@ -1,0 +1,3 @@
+.settings-card { max-width: 680px; margin: 0 auto; }
+.settings-card textarea { resize: vertical; }
+.danger-button { margin-top: 1rem; }

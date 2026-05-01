@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from typing import List
 from database import get_db
-from models import Project, Skill, User
+from models import Project, Skill, User, ProjectStatus
 from schemas import ProjectCreate, ProjectResponse, ProjectStatusUpdate
 from dependencies import get_current_user, require_client
 
@@ -12,7 +12,7 @@ router = APIRouter(prefix="/projects", tags=["projects"])
 @router.get("/", response_model=List[ProjectResponse])
 def get_projects(db: Session = Depends(get_db)):
     # public endpoint, no auth needed
-    projects = db.query(Project).filter(Project.status == "open").all()
+    projects = db.query(Project).filter(Project.status == ProjectStatus.open).all()
     return projects
 
 
@@ -70,6 +70,12 @@ def update_project_status(
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Not your project"
+        )
+
+    if status_update.status == ProjectStatus.completed:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Complete the contract after the freelancer submits work."
         )
 
     project.status = status_update.status

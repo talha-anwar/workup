@@ -1,5 +1,11 @@
 .bid-card {
-  border: 1px solid #ddd;
-  padding: 0.75rem;
-  border-radius: 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  box-shadow: var(--shadow-sm);
+  display: grid;
+  gap: .75rem;
 }
+
+.bid-card p { color: var(--text-muted); margin: 0; line-height: 1.55; }

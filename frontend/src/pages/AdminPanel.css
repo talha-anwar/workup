@@ -1,3 +1,112 @@
-.admin-panel-page {
+.admin-panel-page table select { min-width: 140px; }
+.admin-panel-page .panel h2 { display: flex; align-items: center; gap: .5rem; }
+
+.admin-stats-grid a { color: inherit; }
+.admin-stat-card {
+  display: block;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
   padding: 1rem;
+  box-shadow: var(--shadow-sm);
+  transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease;
+}
+
+.admin-stat-card:hover {
+  transform: translateY(-2px);
+  border-color: #c7d2fe;
+  box-shadow: var(--shadow-md);
+}
+
+.admin-stat-card span {
+  display: block;
+  color: var(--text-muted);
+  text-transform: capitalize;
+}
+
+.admin-stat-card strong {
+  display: block;
+  font-size: 1.8rem;
+  color: var(--text-main);
+}
+
+.admin-stat-card small {
+  display: block;
+  margin-top: .5rem;
+  color: var(--primary-color);
+  font-weight: 800;
+}
+
+.panel-title-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.panel-title-row h2 { margin-bottom: .25rem; }
+.panel-title-row p { margin: 0; }
+
+.filter-actions {
+  display: flex;
+  gap: .65rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.admin-scroll-panel {
+  max-height: 560px;
+  overflow: auto;
+  border: 1px solid var(--border);
+  background: white;
+}
+
+.compact-scroll-panel { max-height: 420px; }
+
+.admin-scroll-panel thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: #f8fafc;
+}
+
+.table-link {
+  font-weight: 900;
+  color: var(--primary-color);
+}
+
+.compact-link {
+  padding: .55rem .75rem;
+  box-shadow: none;
+}
+
+.details-cell {
+  min-width: 260px;
+  max-width: 420px;
+  white-space: normal;
+  color: var(--text-muted);
+  line-height: 1.45;
+}
+
+.admin-profile-card {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) minmax(220px, 280px);
+  gap: 1rem;
+  align-items: start;
+}
+
+.admin-profile-card h2 {
+  margin: 0 0 .5rem;
+  font-size: 2rem;
+}
+
+.admin-profile-card p { margin: .35rem 0; }
+.admin-profile-main { min-width: 0; }
+.admin-profile-actions { display: grid; gap: .75rem; }
+
+@media (max-width: 860px) {
+  .panel-title-row { display: block; }
+  .panel-title-row .actions { margin-top: 1rem; }
+  .admin-profile-card { grid-template-columns: 1fr; }
 }
