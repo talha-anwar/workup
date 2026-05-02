@@ -1,4 +1,3 @@
-# routers/search.py
 from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session
 from typing import List, Optional
@@ -20,15 +19,18 @@ def search_projects(
     query = db.query(Project).filter(Project.status == ProjectStatus.open)
 
     if skill:
-        query = query.join(Project.skills).filter(Skill.name == skill)
+        query = query.join(Project.skills).filter(Skill.name.ilike(f"%{skill}%"))
 
+    # User-facing filters mean: only show projects whose own minimum budget
+    # is at least the selected minimum, and whose own maximum budget is not
+    # above the selected maximum.
     if budget_min is not None:
-        query = query.filter(Project.budget_max >= budget_min)
+        query = query.filter(Project.budget_min >= budget_min)
 
     if budget_max is not None:
-        query = query.filter(Project.budget_min <= budget_max)
+        query = query.filter(Project.budget_max <= budget_max)
 
-    return query.all()
+    return query.distinct().all()
 
 
 @router.get("/freelancers", response_model=List[FreelancerResponse])
@@ -41,7 +43,7 @@ def search_freelancers(
     query = db.query(Freelancer)
 
     if skill:
-        query = query.join(Freelancer.skills).filter(Skill.name == skill)
+        query = query.join(Freelancer.skills).filter(Skill.name.ilike(f"%{skill}%"))
 
     if min_rate is not None:
         query = query.filter(Freelancer.hourly_rate >= min_rate)
@@ -49,4 +51,4 @@ def search_freelancers(
     if max_rate is not None:
         query = query.filter(Freelancer.hourly_rate <= max_rate)
 
-    return query.all()
+    return query.distinct().all()

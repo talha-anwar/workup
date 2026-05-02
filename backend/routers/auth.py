@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from database import get_db
-from models import User, Freelancer, UserRole
+from models import User, Freelancer, UserRole, UserStatus
 from schemas import UserCreate, UserResponse, Token, LoginRequest
 from dependencies import hash_password, verify_password, create_access_token
 
@@ -11,6 +11,13 @@ router = APIRouter(prefix="/auth", tags=["auth"])
 
 @router.post("/register", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
 def register(user_data: UserCreate, db: Session = Depends(get_db)):
+    # Admin accounts are private. Create them from the terminal with seed.py/create_admin.py.
+    if user_data.role == UserRole.admin:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Admin accounts cannot be created from public registration"
+        )
+
     # check if email already exists
     existing = db.query(User).filter(User.email == user_data.email).first()
     if existing:
@@ -46,6 +53,12 @@ def login(credentials: LoginRequest, db: Session = Depends(get_db)):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid email or password"
+        )
+
+    if user.status != UserStatus.active:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Account is suspended or banned"
         )
 
     token = create_access_token(data={"sub": str(user.id)})

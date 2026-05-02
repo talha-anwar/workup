@@ -47,6 +47,7 @@ class BidStatus(str, enum.Enum):
 
 class ContractStatus(str, enum.Enum):
     active = "active"
+    submitted = "submitted"
     completed = "completed"
     cancelled = "cancelled"
 
@@ -233,6 +234,8 @@ class Contract(Base):
     )
     agreed_amount = Column(Numeric(10, 2), nullable=False)
     start_date = Column(Date, nullable=False)
+    submission_message = Column(Text, nullable=True)
+    submitted_at = Column(DateTime, nullable=True)
     status = Column(Enum(ContractStatus), nullable=False, default=ContractStatus.active)
     bid = relationship("Bid", back_populates="contract")
     reviews = relationship("Review", back_populates="contract", cascade="all, delete-orphan")

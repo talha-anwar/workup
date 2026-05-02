@@ -1,0 +1,24 @@
+.admin-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .65rem;
+  margin: 1rem 0 1.5rem;
+  padding: .65rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, .92);
+  box-shadow: var(--shadow-sm);
+}
+
+.admin-nav a {
+  padding: .7rem 1rem;
+  border-radius: var(--radius-sm);
+  font-weight: 900;
+  color: var(--text-muted);
+}
+
+.admin-nav a:hover,
+.admin-nav a.active {
+  background: var(--primary-light);
+  color: var(--primary-color);
+}

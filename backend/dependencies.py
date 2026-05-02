@@ -10,7 +10,8 @@ import os
 from database import get_db
 from models import User, UserStatus
 
-load_dotenv()
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+load_dotenv(os.path.join(BASE_DIR, ".env"))
 
 SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM = "HS256"
@@ -76,7 +77,7 @@ def require_admin(current_user: User = Depends(get_current_user)) -> User:
     return current_user
 
 def require_client(current_user: User = Depends(get_current_user)) -> User:
-    if current_user.role.value not in ("client", "both", "admin"):
+    if current_user.role.value not in ("client", "both"):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Client access required"
@@ -84,7 +85,7 @@ def require_client(current_user: User = Depends(get_current_user)) -> User:
     return current_user
 
 def require_freelancer(current_user: User = Depends(get_current_user)) -> User:
-    if current_user.role.value not in ("freelancer", "both", "admin"):
+    if current_user.role.value not in ("freelancer", "both"):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Freelancer access required"

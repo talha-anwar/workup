@@ -2,12 +2,12 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from database import Base, engine
-from routers import auth, projects, bids, contracts, reviews, search, reports, admin, users
+from routers import auth, projects, bids, contracts, reviews, search, reports, admin, users, skills
 
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
-    title="WorkUp API", 
+    title="WorkUp API",
     version="1.0.0",
     swagger_ui_parameters={"persistAuthorization": True}
 )
@@ -15,9 +15,10 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "http://localhost:3000/",
-        "http://localhost:5500/",
-        "http://127.0.0.1:5500/"
+        "http://localhost:3000",
+        "http://localhost:5173",
+        "http://localhost:5500",
+        "http://127.0.0.1:5500",
     ],
     allow_credentials=True,
     allow_methods=["*"],
@@ -33,6 +34,7 @@ app.include_router(search.router)
 app.include_router(reports.router)
 app.include_router(admin.router)
 app.include_router(users.router)
+app.include_router(skills.router)
 
 
 @app.get("/")

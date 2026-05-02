@@ -1,3 +1,1 @@
-.register-page {
-  padding: 1rem;
-}
+/* Page-specific hooks are kept for future tweaks; shared page styles live in index.css. */
